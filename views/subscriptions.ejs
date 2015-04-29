@@ -1,0 +1,16 @@
+<% layout('layout') -%>
+<% script('../javascripts/subscriptions.js') -%>
+
+<h1 id="header">Current Subscriptions</h1>
+
+<div id="subs-list">
+<%- include partials/subs_list %>
+</div>
+
+<h1>Add a New Subscription</h1>
+<form action="javascript:void(0);">
+    <label for="user">Username</label>
+    <textarea id="user"></textarea>
+    <input id="save" type="submit" value="Save" />
+</form>
+

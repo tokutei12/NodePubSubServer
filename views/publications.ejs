@@ -1,0 +1,16 @@
+<% layout('layout') -%>
+<% script('../javascripts/publications.js') -%>
+
+<h1 id="header">Current Publications</h1>
+
+<div id="pubs-list">
+<%- include partials/pubs_list %>
+</div>
+
+<h1>Add a New Publication</h1>
+<form action="javascript:void(0);">
+    <label for="msg">Message</label>
+    <textarea id="msg"></textarea>
+    <input id="save" type="submit" value="Save" />
+</form>
+
