@@ -12,6 +12,8 @@ var publications = require('./routes/publications');
 var subscriptions = require('./routes/subscriptions');
 
 var app = express();
+var server = app.listen(3001);
+var io = require('socket.io').listen(server);
 
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
@@ -43,6 +45,16 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/publications', publications);
 app.use('/subscriptions', subscriptions);
+
+
+// Socket IO code
+
+io.on('connection', function(socket){
+  console.log('a subscriber connected');
+  socket.on('message', function(msg){
+    io.emit('message', msg);
+  });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
