@@ -48,11 +48,31 @@ app.use('/subscriptions', subscriptions);
 
 
 // Socket IO code
+var Subscriptions = require('./schema/subscriptions');
+var Sockets = require('./schema/sockets');
 
 io.on('connection', function(socket){
   console.log('a subscriber connected');
   socket.on('message', function(msg){
     io.emit('message', msg);
+  });
+
+  socket.on('registerSelf', function(username){
+    console.log(username);
+    console.log(socket.id);
+    //get subscriber
+    Subscriptions.findOne({username: username}, function(err, sub){
+        if(err){
+            throw new Error(err);
+        }
+        else{
+            Sockets.create({socket_id: socket.id, subscriber: sub._id}, function(err, pub){
+                if (err){
+                    throw new Error(err);
+                } 
+            });
+        }
+    });
   });
 });
 

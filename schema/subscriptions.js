@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 
 var schema = mongoose.Schema({
-	username: {type: String, unique: true, required: true}
+	username: {type: String, unique: true, required: true},
+	channels: [String]
 });
 
 var Subscription = mongoose.model('Subscription', schema);

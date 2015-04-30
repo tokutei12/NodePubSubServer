@@ -1,9 +1,13 @@
 $(function() {
 	$('#save').click(function(){
+		var channels = $("#channels").val().split(/[ ,]+/);
+
 		$.ajax({
 		  method: "POST",
 		  url: "/publications/",
-		  data: { message: $('#msg').val() }
+		  traditional: true,
+		  data: { message: $('#msg').val(),
+				  channels: channels}
 		})
 		  .success(function( res ) {
 		  	console.log('success');

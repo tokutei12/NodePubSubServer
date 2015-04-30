@@ -1,3 +1,8 @@
+<ul>
 <% pubs.forEach( function(pub){ %>
-	<p><%= pub.message %></p>
+	<li>
+		<strong>Message:</strong> <%= pub.message %>, 
+		<strong>Channels:</strong> <% pub.channels.forEach(function(ch){ %><%=ch%> <% });%>
+	</li>
 <% }); %>
+</ul>

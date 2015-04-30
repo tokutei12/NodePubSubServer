@@ -1,3 +1,8 @@
+<ul>
 <% subs.forEach( function(sub){ %>
-	<p><%= sub.username %></p>
+	<li>
+		<strong>User:</strong> <%= sub.username %>, 
+		<strong>Channels:</strong> <% sub.channels.forEach(function(ch){ %><%=ch%> <% });%>
+	</li>
 <% }); %>
+</ul>

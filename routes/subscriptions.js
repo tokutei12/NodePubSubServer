@@ -19,7 +19,6 @@ router.get('/', function(req, res) {
 router.post('/', function(req, res) {
     Subscriptions.create(req.body, function(err){
         if (err){
-        	console.log(err);
             res.status(500).json({error: 'Could not create new Subscription', success: false});
         } else {
             Subscriptions.find({}, function (err, allsubs) {
