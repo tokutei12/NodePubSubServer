@@ -13,7 +13,7 @@ var subscriptions = require('./routes/subscriptions');
 
 var app = express();
 var server = app.listen(3001);
-var io = require('socket.io').listen(server);
+global.io = require('socket.io').listen(server);
 
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
@@ -51,12 +51,13 @@ app.use('/subscriptions', subscriptions);
 var Subscriptions = require('./schema/subscriptions');
 var Sockets = require('./schema/sockets');
 
-io.on('connection', function(socket){
+global.io.on('connection', function(socket){
   console.log('a subscriber connected');
   socket.on('message', function(msg){
-    io.emit('message', msg);
+    global.io.emit('message', msg);
   });
 
+  //register self when socket is created
   socket.on('registerSelf', function(username){
     console.log(username);
     console.log(socket.id);
@@ -73,6 +74,12 @@ io.on('connection', function(socket){
             });
         }
     });
+  });
+
+  //on disconnect, remove entry from sockets collection
+  socket.on('disconnect', function(){
+    console.log("subscriber disconnected");
+    Sockets.find({socket_id: socket.id}).remove().exec();
   });
 });
 

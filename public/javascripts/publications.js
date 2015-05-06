@@ -1,6 +1,7 @@
 $(function() {
 	$('#save').click(function(){
 		var channels = $("#channels").val().split(/[ ,]+/);
+		console.log(channels);
 
 		$.ajax({
 		  method: "POST",

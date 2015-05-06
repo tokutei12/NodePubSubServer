@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var Publications = require('./../schema/publications');
+var Sockets = require('./../schema/sockets');
+var Subscriptions = require('./../schema/subscriptions');
 var io = require('socket.io/node_modules/socket.io-client');
 client = io.connect('http://localhost:3001');//TODO: remove hard coding
 
@@ -23,8 +25,25 @@ router.post('/', function(req, res) {
         if (err){
             res.json({error: 'Could not create new Publication', success: false});
         } else {
-            //Emit new pub
-            client.emit("message",pub.message);
+            //Find matching subscriptions
+            Subscriptions.find({channels:{"$in":req.body.channels}}, function(err, subs){
+                if(err){
+                    throw new Error(err);
+                }
+                //Emit message to connected subscriber sockets
+                else{
+                    subs.forEach(function(s){
+                        Sockets.findOne({subscriber: s._id}, function(err, sock){//TODO: error handling if subscriber non-existent
+                            if(err){
+                                throw new Error(err);
+                            }
+                            else{
+                                global.io.sockets.connected[sock.socket_id].emit("message",pub.message);
+                            }
+                        });
+                    });
+                }
+            });
             //return new html for publications page partial
             Publications.find({}, function (err, allpubs) {
                 if (err) {

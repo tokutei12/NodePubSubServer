@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Sockets = require('./../schema/sockets');
 
-/* Register socket w/ subscriber */
+/* Register socket w/ subscriber */  //TODO: fix and finish (move from app.js to here?)
 router.post('/', function(req, res) {
     Sockets.create(req.body, function(err, pub){
         if (err){
