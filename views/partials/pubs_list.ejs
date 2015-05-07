@@ -1,8 +1,7 @@
 <ul>
 <% pubs.forEach( function(pub){ %>
 	<li>
-		<strong>Message:</strong> <%= pub.message %>, 
-		<strong>Channels:</strong> <% pub.channels.forEach(function(ch){ %><%=ch%> <% });%>
+		<%= pub %>
 	</li>
 <% }); %>
 </ul>

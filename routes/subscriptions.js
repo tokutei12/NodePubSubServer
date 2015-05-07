@@ -34,7 +34,7 @@ router.post('/', function(req, res) {
 
 router.get('/:username', function(req, res){
 	var username = req.params.username
-	Subscriptions.findOne({username: username}, function(err, user){
+	Subscriptions.findOne({mobile_id: username}, function(err, user){
 		if(err){
 			res.status(500).json({ error: "Error finding subscription", success: false});
 		}
@@ -42,7 +42,7 @@ router.get('/:username', function(req, res){
 			res.status(404).json({ error: "No subscription with that username found", success: false});
 		}
 		else{
-			res.render('ind_subscription', {username: user.username});
+			res.render('ind_subscription', {username: user.mobile_id});
 		}
 	});
 });

@@ -1,20 +1,12 @@
 var mongoose = require('mongoose');
 
 var schema = mongoose.Schema({
-	message: {type: String, required: true},
-	channels: [String]
+	timestamp: {type: Date, default: Date.now},
+	mobile_id: {type: String},
+	message: {type: String},
+	sensor_data: {} //mixed
 });
 
 var Publication = mongoose.model('Publication', schema);
-
-var checkLength = function(s) {
-    if (s){
-        return s.length > 0;
-    } else {
-        return false;
-    }
-};
-
-Publication.schema.path('message').validate(checkLength, "Message cannot be empty");
 
 module.exports = Publication;

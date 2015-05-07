@@ -1,20 +1,12 @@
 var mongoose = require('mongoose');
 
 var schema = mongoose.Schema({
-	username: {type: String, unique: true, required: true},
-	channels: [String]
+	timestamp: {type: Date, default: Date.now},
+	mobile_id: {type: String},
+	message: {},//mixed
+	matches: {} //mixed
 });
 
 var Subscription = mongoose.model('Subscription', schema);
-
-var checkLength = function(s) {
-    if (s){
-        return s.length > 0;
-    } else {
-        return false;
-    }
-};
-
-Subscription.schema.path('username').validate(checkLength, "Username cannot be empty");
 
 module.exports = Subscription;

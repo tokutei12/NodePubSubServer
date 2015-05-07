@@ -28,7 +28,7 @@ db.once('open', function(){
     console.log('Mongoose connection established');
     //drop sockets collection
     db.db.dropCollection('sockets', function(err, result) {
-      if(err){
+      if(err && err.message !== 'ns not found'){
         throw new Error(err);
       }
       else{
@@ -71,7 +71,7 @@ global.io.on('connection', function(socket){
     console.log(username);
     console.log(socket.id);
     //get subscriber
-    Subscriptions.findOne({username: username}, function(err, sub){
+    Subscriptions.findOne({mobile_id: username}, function(err, sub){
         if(err){
             throw new Error(err);
         }
