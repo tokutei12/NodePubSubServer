@@ -21,6 +21,7 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
+    console.log(req.body);
     Publications.create(req.body, function(err, pub){
         if (err){
             res.json({error: 'Could not create new Publication', success: false});
@@ -37,8 +38,14 @@ router.post('/', function(req, res) {
                             if(err){
                                 throw new Error(err);
                             }
-                            else{
-                                global.io.sockets.connected[sock.socket_id].emit("message",pub.message);
+                            else if(sock !== null){
+                                //check for undefined socket, remove if so
+                                if(!global.io.sockets.connected[sock.socket_id]){
+                                    Sockets.find({socket_id: sock.socket_id}).remove().exec();
+                                }
+                                else{
+                                    global.io.sockets.connected[sock.socket_id].emit("message",pub.message);
+                                }
                             }
                         });
                     });

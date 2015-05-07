@@ -1,19 +1,19 @@
 $(function() {
 	$('#save').click(function(){
 		var channels = $("#channels").val().split(/[ ,]+/);
-		console.log(channels);
+		var reqObj = { message: $('#msg').val(), channels: channels};
 
 		$.ajax({
 		  method: "POST",
 		  url: "/publications/",
 		  traditional: true,
-		  data: { message: $('#msg').val(),
-				  channels: channels}
-		})
-		  .success(function( res ) {
+		  contentType: "application/json",
+		  data: JSON.stringify(reqObj),
+		  success: function(res){
 		  	console.log('success');
 		    $('#pubs-list').html(res);
-		  });
+		  }
+		})
 	});
     
 });

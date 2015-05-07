@@ -26,6 +26,15 @@ db.on('error', function(msg){
 
 db.once('open', function(){
     console.log('Mongoose connection established');
+    //drop sockets collection
+    db.db.dropCollection('sockets', function(err, result) {
+      if(err){
+        throw new Error(err);
+      }
+      else{
+        console.log('Dropped sockets collection');
+      }
+    });
 });
 
 // view engine setup
